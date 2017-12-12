@@ -1,0 +1,38 @@
+---
+- name: Install certbot
+  get_url:
+    url: https://dl.eff.org/certbot-auto
+    dest: /usr/bin/certbot-auto
+    mode: "a+x"
+  tags:
+    - letsencrypt
+
+- name: Generate certs (first time)
+  command: certbot-auto certonly --webroot -w /var/www/{{ item.key }} -d {{ item.value.domains | join(' -d ') }} --email {{ item.value.letsencrypt_email }} --non-interactive --agree-tos creates=/etc/letsencrypt/live/{{ item.key }}/fullchain.pem
+  with_dict: "{{ nginx_revproxy_sites }}"
+  when: item.value.letsencrypt | default(False)
+  tags:
+    - letsencrypt
+
+- name: Update Site Config
+  template:
+    src=reverseproxy.conf.j2
+    dest=/etc/nginx/sites-available/{{ item.key }}.conf
+    owner=root
+    group=root
+  with_dict: "{{ nginx_revproxy_sites }}"
+  when: item.value.letsencrypt | default(False)
+  notify:
+    - Reload Nginx
+  tags:
+    - letsencrypt
+
+- name: Insert cert-bot renew in crontab
+  cron:
+    name: "cert-bot renew"
+    minute: 30
+    hour: 3
+    weekday: 1
+    job: 'certbot-auto renew --post-hook "systemctl reload nginx" >> /var/log/letsencrypt/letsencrypt-update.log 2>&1'
+  tags:
+    - letsencrypt
