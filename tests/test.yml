@@ -2,4 +2,5 @@
 - hosts: localhost
   remote_user: root
   roles:
+    - hispanico.nginx-revproxy
     - ansible-letsencrypt-nginx-revproxy

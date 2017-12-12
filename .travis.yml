@@ -10,6 +10,7 @@ addons:
   apt:
     packages:
     - python-pip
+    - ansible-galaxy install hispanico.nginx-revproxy
 
 install:
   # Install ansible
