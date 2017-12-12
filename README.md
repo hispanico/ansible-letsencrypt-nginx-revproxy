@@ -24,7 +24,7 @@ nginx_revproxy_sites:                                         # List of sites to
     upstreams:                                                # List of Upstreams
       - { backend_address: 192.168.0.100, backend_port: 80 }
       - { backend_address: 192.168.0.101, backend_port: 8080 }
-    letsencrypt: true                                        # Set to True if you are using hispanico.letsencrypt role
+    letsencrypt: true                                        # Set to True if you are using hispanico.letsencrypt-nginx-revproxy role
     letsencrypt_email: 'contatti@ninux.org'
 ```
 
