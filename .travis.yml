@@ -43,6 +43,8 @@ script:
   - sudo netstat -ntulp |grep nginx
   - sudo ls /etc/nginx/sites-enabled/
   - for i in $(sudo ls /etc/nginx/sites-enabled/); do echo $i;echo "------------------------------"; sudo cat /etc/nginx/sites-enabled/$i; echo "------------------------------";echo ""; done
+  - sudo ls -l /usr/bin/certbot-auto
+  - sudo crontab -l
 
 notifications:
   webhooks: https://galaxy.ansible.com/api/v1/notifications/
