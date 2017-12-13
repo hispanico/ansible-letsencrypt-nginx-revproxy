@@ -1,26 +1,10 @@
 ---
 - hosts: localhost
   remote_user: root
+
+  vars_files:
+    - tests/sites.yml
+    
   roles:
     - {role: hispanico.nginx-revproxy}
     - {role: ansible-letsencrypt-nginx-revproxy}
-
-  vars:
-    nginx_revproxy_sites:
-      example.org:
-        domains:
-          - example.org
-          - www.example.org
-        upstreams:
-          - { backend_address: 192.168.0.200, backend_port: 80 }
-          - { backend_address: 192.168.0.201, backend_port: 80 }
-        letsencrypt: false
-
-      example.com:
-        domains:
-          - example.com
-          - www.example.com
-        upstreams:
-          - { backend_address: 192.168.0.100, backend_port: 80 }
-          - { backend_address: 192.168.0.101, backend_port: 80 }
-        letsencrypt: false
