@@ -3,8 +3,8 @@
   remote_user: root
 
   vars_files:
-    - tests/sites.yml
-    
+    - sites.yml
+
   roles:
     - {role: hispanico.nginx-revproxy}
     - {role: ansible-letsencrypt-nginx-revproxy}
