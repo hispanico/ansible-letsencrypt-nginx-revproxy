@@ -16,12 +16,13 @@
 
 - name: Update Site Config
   template:
-    src=reverseproxy.conf.j2
+    src=reverseproxy_ssl.conf.j2
     dest=/etc/nginx/sites-available/{{ item.key }}.conf
     owner=root
     group=root
   with_dict: "{{ nginx_revproxy_sites }}"
-  when: item.value.letsencrypt | default(False)
+  when:
+    - item.value.letsencrypt | default(False)
   notify:
     - Reload Nginx
   tags:
